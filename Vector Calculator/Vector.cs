@@ -4,89 +4,96 @@ namespace Vector_Calculator
 {
     public class Vector
     {
-        public static readonly Vector Zero = new Vector(1, 1, 1);
-        public static readonly Vector One = new Vector(0, 0, 0);
-
-        public float x;
-        public float y;
-        public float z;
-
-        public Vector(float x, float y, float z)
+        //haha
+        public static float GetMagnitude(float[] v)
         {
-            this.x = x;
-            this.y = y;
-            this.z = z;
+            float output = 0;
+            for (int d = 0; d < v.Length; d++)
+            {
+                output += MathF.Pow(v[d], 2);
+            }
+            return MathF.Sqrt(output);
         }
 
-        public override string ToString()
+        public static float GetDirection(float[] v)
         {
-            return $"<{x}, {y}, {z}>";
+            return MathF.Atan(v[1] / v[0]) * 180 / MathF.PI;
         }
 
-        public float GetMagnitude()
+        public static string Add(float[] v1, float[] v2)
         {
-            // ADD CODE HERE, THEN REMOVE BELOW LINE
-            throw new NotImplementedException();
+            string output = "<" + (v1[0] + v2[0]);
+            for (int d = 1; d < v1.Length; d++)
+            {
+                output += ", " + (v1[d] + v2[d]);
+            }
+            return output + ">";
         }
 
-        public float GetDirection()
+        public static string Negate(float[] v)
         {
-            // ADD CODE HERE, THEN REMOVE BELOW LINE
-            throw new NotImplementedException();
+            string output = "<" + -v[0];
+            for (int d = 1; d < v.Length; d++)
+            {
+                output += ", " + -v[d];
+            }
+            return output + ">";
         }
 
-        public static Vector Add(Vector v1, Vector v2)
+        public static string Subtract(float[] v1, float[] v2)
         {
-            // ADD CODE HERE, THEN REMOVE BELOW LINE
-            throw new NotImplementedException();
+            string output = "<" + (v1[0] - v2[0]);
+            for (int d = 1; d < v1.Length; d++)
+            {
+                output += ", " + (v1[d] - v2[d]);
+            }
+            return output + ">";
         }
 
-        public static Vector Negate(Vector v)
+        public static string Scale(float[] v1, float m)
         {
-            // ADD CODE HERE, THEN REMOVE BELOW LINE
-            throw new NotImplementedException();
+            string output = "<" + (v1[0] * m);
+            for (int d = 1; d < v1.Length; d++)
+            {
+                output += ", " + (v1[d] * m);
+            }
+            return output + ">";
         }
 
-        public static Vector Subtract(Vector v1, Vector v2)
+        public static string Normalize(float[] v)
         {
-            // ADD CODE HERE, THEN REMOVE BELOW LINE
-            throw new NotImplementedException();
+            float mag = GetMagnitude(v);
+            string output = "<" + (v[0] / mag);
+            for (int d = 1; d < v.Length; d++)
+            {
+                output += ", " + (v[d] / mag);
+            }
+            return output + ">";
         }
 
-        public static Vector Scale(Vector v)
+        public static float DotProduct(float[] v1, float[] v2)
         {
-            // ADD CODE HERE, THEN REMOVE BELOW LINE
-            throw new NotImplementedException();
+            float output = 0;
+            for (int d = 0; d < v1.Length; d++)
+            {
+                output += v1[d] * v2[d];
+            }
+            return output;
         }
 
-        public static Vector Normalize(Vector v)
+        public static string CrossProduct(float[] v1, float[] v2)
         {
-            // ADD CODE HERE, THEN REMOVE BELOW LINE
-            throw new NotImplementedException();
+            return "<" + (v1[1] * v2[2] - v1[2] * v2[1]) + ", " + (v1[2] * v2[0] - v1[0] * v2[2]) + ", " + (v1[0] * v2[1] - v1[1] * v2[0]) + ">";
         }
 
-        public static float DotProduct(Vector v1, Vector v2)
+        public static float AngleBetween(float[] v1, float[] v2)
         {
-            // ADD CODE HERE, THEN REMOVE BELOW LINE
-            throw new NotImplementedException();
+            return MathF.Acos(DotProduct(v1, v2) / (GetMagnitude(v1) * GetMagnitude(v2))) * 180 / MathF.PI;
         }
 
-        public static Vector CrossProduct(Vector v1, Vector v2)
+        public static string ProjectOnto(float[] v1, float[] v2)
         {
-            // ADD CODE HERE, THEN REMOVE BELOW LINE
-            throw new NotImplementedException();
-        }
-
-        public static Vector AngleBetween(Vector v1, Vector v2)
-        {
-            // ADD CODE HERE, THEN REMOVE BELOW LINE
-            throw new NotImplementedException();
-        }
-
-        public static Vector ProjectOnto(Vector v1, Vector v2)
-        {
-            // ADD CODE HERE, THEN REMOVE BELOW LINE
-            throw new NotImplementedException();
+            return Scale(v2, DotProduct(v1, v2) / MathF.Pow(GetMagnitude(v2), 2));
         }
     }
 }
